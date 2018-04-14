@@ -425,10 +425,14 @@ float disturb_angle = 8000.0;
 //?????
 unsigned char testred1 = 0;
 unsigned char testred2 = 0;
+unsigned char testred3 = 0;
+unsigned char testred4 = 0;
 void controlLoop()
 {
 	testred1 = READ_RED1();
 	testred2 = READ_RED2();
+	testred3 = READ_RED3();
+	testred4 = READ_RED4();
 	
 	if(enemy_detect_cnt>1000)    //2s??????????????
 	{

@@ -12,7 +12,17 @@ unsigned char READ_RED2(void)
 	return GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_1);
 }
 
-void Red_Configuration(void)
+unsigned char READ_RED3(void)
+{
+	return GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_4);
+}
+
+unsigned char READ_RED4(void)
+{
+	return GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_5);
+}
+
+void Red12_Configuration(void)
 {
     GPIO_InitTypeDef gpio;
     
@@ -23,6 +33,20 @@ void Red_Configuration(void)
 	gpio.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	gpio.GPIO_Speed = GPIO_Speed_100MHz;
 	GPIO_Init(GPIOA,&gpio);
+    
+}
+
+void Red34_Configuration(void)
+{
+    GPIO_InitTypeDef gpio;
+    
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB,ENABLE);
+	
+	gpio.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5 ;
+	gpio.GPIO_Mode = GPIO_Mode_IN;
+	gpio.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	gpio.GPIO_Speed = GPIO_Speed_100MHz;
+	GPIO_Init(GPIOB,&gpio);
     
 }
 

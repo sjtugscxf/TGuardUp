@@ -19,9 +19,12 @@
         PWM2 = x;
 
 #endif 
-void Red_Configuration(void);
+void Red12_Configuration(void);
+void Red34_Configuration(void);
 unsigned char READ_RED1(void);     
 unsigned char READ_RED2(void); 
+unsigned char READ_RED3(void);     
+unsigned char READ_RED4(void); 
 //void PWM_Configuration(void);
  
 #endif /* __GUN_H__*/

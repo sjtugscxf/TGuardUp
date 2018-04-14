@@ -2,7 +2,7 @@
 
 //encoder.INPUT_B---PB4(TIM3_CH1)
 //encoder.INPUT_A---PB5(TIM3_CH2)
-
+/*
 void Quad_Encoder_Configuration(void)
 {
     GPIO_InitTypeDef gpio;
@@ -43,3 +43,4 @@ int32_t GetQuadEncoderDiff(void)
 		return -cnt;            
 	}
 }
+*/

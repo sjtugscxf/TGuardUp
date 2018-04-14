@@ -19,7 +19,7 @@ void IIC_Delay(unsigned int t)
 	}
 }
 
-
+/*
 void HEAT_Configuration(void)
 {
 	GPIO_InitTypeDef gpio;   
@@ -31,6 +31,7 @@ void HEAT_Configuration(void)
 	GPIO_Init(GPIOB, &gpio);
   GPIO_ResetBits(GPIOB,GPIO_Pin_4);
 }
+*/
 
 void IIC_GPIO_Init(void)
 {

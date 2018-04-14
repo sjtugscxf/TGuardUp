@@ -12,6 +12,6 @@ int main(void)
 	system_micrsecond = Get_Time_Micros();				
 	while(1)
 	{   
-		IMU_getYawPitchRoll(angle);
+		//IMU_getYawPitchRoll(angle);
   }
 }
