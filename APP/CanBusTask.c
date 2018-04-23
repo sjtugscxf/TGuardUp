@@ -11,6 +11,7 @@ static uint32_t can_count = 0;
 void CanReceiveMsgProcess(CanRxMsg * msg)
 {      
         //GMYawEncoder.ecd_bias = yaw_ecd_bias;
+	/*
         can_count++;
 		switch(msg->StdId)
 		{
@@ -45,6 +46,7 @@ void CanReceiveMsgProcess(CanRxMsg * msg)
 				{
 				}
 		}
+		*/
 }
 
 /********************************************************************************
@@ -66,7 +68,7 @@ void Set_CM_Speed(CAN_TypeDef *CANx, int16_t cm1_iq, int16_t cm2_iq, int16_t cm3
     tx_message.Data[5] = (uint8_t)cm3_iq;
     tx_message.Data[6] = (uint8_t)(cm4_iq >> 8);
     tx_message.Data[7] = (uint8_t)cm4_iq;
-    CAN_Transmit(CANx,&tx_message);
+    //CAN_Transmit(CANx,&tx_message);
 }
 
 /********************************************************************************
@@ -89,5 +91,5 @@ void Set_Gimbal_Current(CAN_TypeDef *CANx, int16_t gimbal_yaw_iq, int16_t gimbal
     tx_message.Data[5] = 0x00;
     tx_message.Data[6] = 0x00;
     tx_message.Data[7] = 0x00;
-    CAN_Transmit(CANx,&tx_message);
+    //CAN_Transmit(CANx,&tx_message);
 }

@@ -40,7 +40,7 @@ void EXTI4_IRQHandler(void)         //中断频率1KHz
         //读取原始数据
         LostCounterFeed(GetLostCounter(LOST_COUNTER_INDEX_IMU));   //feed(clear) the IMU ERROR Count
         isMPU6050_is_DRY = 1;   //mpu6050中断标志
-        GetPitchYawGxGyGz();//读取姿态数据,数据已经处理成连续方式	
+        //GetPitchYawGxGyGz();//读取姿态数据,数据已经处理成连续方式	
     }
 }
 

@@ -508,7 +508,7 @@ void controlLoop()
 		
 		//pitchIntensity = 0;
 		
-		setGMMotor();
+		//setGMMotor();
 		
 		ControlCMFL();
 		ControlCMFR();
@@ -516,6 +516,6 @@ void controlLoop()
 		//ControlBullet2();
 		//setBulletWithAngle(bullet_angle_target + bullet_zero_angle);
 		//setBullet2WithAngle(bullet2_angle_target + bullet2_zero_angle);
-		setCMMotor();
+		//setCMMotor();
 	}
 }
