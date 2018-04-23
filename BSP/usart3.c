@@ -254,6 +254,10 @@ extPowerHeatData_t extPowerHeat;
 uint8_t JUDGE_Received = 0;
 JudgeState_e JUDGE_State = OFFLINE;
 
+uint8_t bulletFreqBuf = 0;
+uint8_t shooterHeat0Buf[2] = {0};
+uint8_t bulletSpeedBuf[4] = {0};
+
 void Judge_Refresh(uint8_t cmd)
 {
 	unsigned char * b = NULL;
@@ -263,9 +267,12 @@ void Judge_Refresh(uint8_t cmd)
 	{
 		extShootData.bulletType = buffer[7];
 		extShootData.bulletFreq = buffer[8];
+		bulletFreqBuf = buffer[8];
 		
 		b = (unsigned char*)&extShootData.bulletSpeed;
 		c[0] = buffer[9];c[1] = buffer[10];c[2] = buffer[11];c[3] = buffer[12];
+		bulletSpeedBuf[0] = buffer[9];bulletSpeedBuf[1] = buffer[10];
+		bulletSpeedBuf[2] = buffer[11];bulletSpeedBuf[3] = buffer[12];
 		for(int i = 0; i<4; i++){
 			b[i] = (unsigned char)c[i];
 		}
@@ -297,6 +304,7 @@ void Judge_Refresh(uint8_t cmd)
 		}
 		
 		extPowerHeat.shooterHeat0 = (0x0000 | buffer[23]) | (buffer[24]<<8);
+		shooterHeat0Buf[0] = buffer[23];shooterHeat0Buf[1] = buffer[24];
 		extPowerHeat.shooterHeat1 = (0x0000 | buffer[25]) | (buffer[26]<<8);
 	}
 //  mytGameInfo.remainTime = (0x00000000 | buffer[7]) | (buffer[8]<<8) | (buffer[9]<<16) | (buffer[10]<<24);

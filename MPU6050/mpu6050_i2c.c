@@ -113,7 +113,7 @@ int IIC_WaitAck(void)
 		if(--Out_Time)
 		{
 			IIC_Stop();
-            printf("error 2A\r\n");
+//            printf("error 2A\r\n");
             return 0xff;
 		}
 	}
@@ -170,21 +170,21 @@ int IIC_WriteData(u8 dev_addr,u8 reg_addr,u8 data)
 	IIC_WriteBit(dev_addr);
 	if(IIC_WaitAck() == 0xff)
     {
-        printf("error 2B\r\n");
+//        printf("error 2B\r\n");
         return 0xff;
     }
     
 	IIC_WriteBit(reg_addr);
 	if(IIC_WaitAck() == 0xff)
     {
-        printf("error 2C\r\n");
+//        printf("error 2C\r\n");
         return 0xff;
     }
 
     IIC_WriteBit(data);
     if(IIC_WaitAck() == 0xff)
     {
-        printf("error 2D\r\n");
+//        printf("error 2D\r\n");
         return 0xff;
     }
 
@@ -202,14 +202,14 @@ int IIC_ReadData(u8 dev_addr,u8 reg_addr,u8 *pdata,u8 count)
     IIC_WriteBit(dev_addr);
 	  if(IIC_WaitAck() == 0xff)
     {
-        printf("error 2F\r\n");
+//        printf("error 2F\r\n");
         return 0xff;
     }
     
     IIC_WriteBit(reg_addr);
 	  if(IIC_WaitAck() == 0xff)
     {
-        printf("error 2G\r\n");
+//        printf("error 2G\r\n");
         return 0xff;
     }
 	
@@ -218,7 +218,7 @@ int IIC_ReadData(u8 dev_addr,u8 reg_addr,u8 *pdata,u8 count)
     IIC_WriteBit(dev_addr+1);
 	  if(IIC_WaitAck() == 0xff)
     {
-        printf("error 2H\r\n");
+//        printf("error 2H\r\n");
         return 0xff;
     }
     

@@ -26,6 +26,10 @@ typedef struct
     uint16_t shooterHeat1;
 }extPowerHeatData_t;
 
+extern uint8_t bulletFreqBuf;
+extern uint8_t shooterHeat0Buf[2];
+extern uint8_t bulletSpeedBuf[4];
+
 extern extShootData_t extShootData;
 extern extPowerHeatData_t extPowerHeat;
 

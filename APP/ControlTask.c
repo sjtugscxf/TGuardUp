@@ -267,7 +267,7 @@ void WorkStateFSM(void)
 				GREEN_LED_OFF();
 				RED_LED_OFF();
 				blink_cnt = 0;
-				printf("START\n");
+//				printf("START\n");
 			}
 			
 			if (inputmode == STOP) WorkState = STOP_STATE;
@@ -277,27 +277,14 @@ void WorkStateFSM(void)
 			if (inputmode == STOP) 
 			{
 				WorkState = STOP_STATE;
-//				SetFrictionWheelSpeed(1000); 
 				frictionRamp.ResetCounter(&frictionRamp);
 				FrictionWheelState = FRICTION_WHEEL_OFF;
-			}
-			else if (inputmode == AUTO)
-			{
-				//SetFrictionWheelSpeed(1000 + (FRICTION_WHEEL_MAX_DUTY-1000)*frictionRamp.Calc(&frictionRamp)); 
-				//if(frictionRamp.IsOverflow(&frictionRamp))
-				//{
-					WorkState = DEFEND_STATE;//?????????
-				  //odometry = 0.0;
-					//ChassisSpeedRef.forward_back_ref = odometry_speed1;
-				//	FrictionWheelState = FRICTION_WHEEL_ON;
-				//}
 			}
 			
 			if (blink_cnt == 1000) 
 			{
 				blink_cnt = 0;
 				GREEN_LED_TOGGLE();
-				//printf("%d %d \n",enemy_yaw,enemy_pitch);
 			}
 		}break;
 		case DEFEND_STATE:  //????,??360???
@@ -427,6 +414,29 @@ unsigned char testred1 = 0;
 unsigned char testred2 = 0;
 unsigned char testred3 = 0;
 unsigned char testred4 = 0;
+
+uint8_t redBuf = 0;
+
+
+void sendUpMsg(CAN_TypeDef *CANx)
+{
+    CanTxMsg tx_message;    
+    tx_message.StdId = 0x305;
+    tx_message.IDE = CAN_Id_Standard;
+    tx_message.RTR = CAN_RTR_Data;
+    tx_message.DLC = 0x08;
+    
+    tx_message.Data[0] = redBuf;
+    tx_message.Data[1] = bulletFreqBuf;
+    tx_message.Data[2] = shooterHeat0Buf[0];
+    tx_message.Data[3] = shooterHeat0Buf[1];
+    tx_message.Data[4] = bulletSpeedBuf[0];
+    tx_message.Data[5] = bulletSpeedBuf[1];
+    tx_message.Data[6] = bulletSpeedBuf[2];
+    tx_message.Data[7] = bulletSpeedBuf[3];
+    CAN_Transmit(CANx,&tx_message);
+}
+
 void controlLoop()
 {
 	testred1 = READ_RED1();
@@ -434,88 +444,12 @@ void controlLoop()
 	testred3 = READ_RED3();
 	testred4 = READ_RED4();
 	
-	if(enemy_detect_cnt>1000)    //2s??????????????
-	{
-		enemy_yaw = YAW_OFFSET;
-		enemy_pitch = PITCH_OFFSET;
-	}
-	else
-	{
-		enemy_detect_cnt++;
-	}
+	redBuf = ((0xE0) | (testred4<<3) | (testred3<<2) | (testred2<<1) | (testred1)); 
 	
 	WorkStateFSM();
 	
-	if(WorkState == DEFEND_STATE)
-	{
-		yawSpeedTarget = 120.0;
-		//yawSpeedTarget = 0;
-		//if(odometry < odometry_downmax1) ChassisSpeedRef.forward_back_ref = odometry_speed1;
-		//if(odometry > odometry_upmax1) ChassisSpeedRef.forward_back_ref = -odometry_speed1;
-	}
-	
-	if(FrictionWheelState == FRICTION_WHEEL_ON)
-	{
-		if (disturb_init)
-		{
-			disturb_cnt++;
-			if(disturb_cnt > 2000)
-			{
-				bullet_angle_target = - bullet_angle_target;
-				disturb_cnt = 0;
-			}
-		}
-		else
-		{
-			disturb_init = 1;
-			bullet_angle_target = disturb_angle;
-			disturb_cnt = 0;
-		}
-	}
-	
-	if(WorkState == ATTACK_STATE)
-	{
-	  //if(odometry < odometry_downmax2) ChassisSpeedRef.forward_back_ref = odometry_speed2;
-		//if(odometry > odometry_upmax2) ChassisSpeedRef.forward_back_ref = -odometry_speed2;
-		ChassisSpeedRef.forward_back_ref = 0.0;
-		
-		static float enemy_yaw_err_last = 0;
-		enemy_yaw_err = (float)((int16_t)YAW_OFFSET - enemy_yaw);
-		//enemy_yaw_out = enemy_yaw_err/10 * fabs(enemy_yaw_err)  * AUTO_ATTACK_YAW_KP + (enemy_yaw_err - enemy_yaw_err_last)*AUTO_ATTACK_YAW_KD;
-		enemy_yaw_out = enemy_yaw_err *  auto_attack_yaw_kp + (enemy_yaw_err - enemy_yaw_err_last)*auto_attack_yaw_kd;
-		if (enemy_yaw_out>60) enemy_yaw_out = 60;
-		else if (enemy_yaw_out<-60) enemy_yaw_out = -60;
-		yawSpeedTarget = enemy_yaw_out;
-		
-		static float enemy_pitch_err_last = 0;
-		enemy_pitch_err = (float)((int16_t)PITCH_OFFSET - enemy_pitch);
-		//enemy_pitch_out = enemy_pitch_err/10 * fabs(enemy_pitch_err) * AUTO_ATTACK_PITCH_KP + (enemy_pitch_err - enemy_pitch_err_last)*AUTO_ATTACK_PITCH_KD;
-		enemy_pitch_out = enemy_pitch_err * auto_attack_pitch_kp + (enemy_pitch_err - enemy_pitch_err_last)*auto_attack_pitch_kd;
-		if (enemy_pitch_out>1) enemy_pitch_out = 1;
-		else if (enemy_pitch_out<-1) enemy_pitch_out = -1;
-		pitchAngleTarget -= enemy_pitch_out;
-		
-		if(enemy_yaw_err<100 && enemy_yaw_err>-100 && enemy_pitch_err<75 && enemy_pitch_err>-75) ShootState = SHOOTING;
-		else ShootState = NOSHOOTING;
-	}
-	
 	if(WorkState != STOP_STATE && WorkState != START_STATE) 
 	{
-		odometryLoop();
-		
-		ControlYawSpeed();
-		ControlPitch();
-		
-		//pitchIntensity = 0;
-		
-		//setGMMotor();
-		
-		ControlCMFL();
-		ControlCMFR();
-		ControlBullet();
-		//ControlBullet2();
-		//setBulletWithAngle(bullet_angle_target + bullet_zero_angle);
-		//setBullet2WithAngle(bullet2_angle_target + bullet2_zero_angle);
-		//setCMMotor();
+		sendUpMsg(CAN2);
 	}
 }
