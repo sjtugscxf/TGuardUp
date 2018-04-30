@@ -30,7 +30,7 @@ void Red12_Configuration(void)
 	
 	gpio.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 ;
 	gpio.GPIO_Mode = GPIO_Mode_IN;
-	gpio.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	gpio.GPIO_PuPd = GPIO_PuPd_UP;
 	gpio.GPIO_Speed = GPIO_Speed_100MHz;
 	GPIO_Init(GPIOA,&gpio);
     
@@ -44,7 +44,7 @@ void Red34_Configuration(void)
 	
 	gpio.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5 ;
 	gpio.GPIO_Mode = GPIO_Mode_IN;
-	gpio.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	gpio.GPIO_PuPd = GPIO_PuPd_UP;
 	gpio.GPIO_Speed = GPIO_Speed_100MHz;
 	GPIO_Init(GPIOB,&gpio);
     
