@@ -444,7 +444,8 @@ void controlLoop()
 	testred3 = READ_RED3();
 	testred4 = READ_RED4();
 	
-	redBuf = ((0xE0) | (testred4<<3) | (testred3<<2) | (testred2<<1) | (testred1)); 
+	uint8_t gametemp =  (extGameRobotState.gameProgress << 4) & 0xF0;
+	redBuf = (gametemp | (testred4<<3) | (testred3<<2) | (testred2<<1) | (testred1)); 
 	
 	WorkStateFSM();
 	

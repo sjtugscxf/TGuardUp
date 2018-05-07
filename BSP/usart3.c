@@ -249,6 +249,7 @@ void USART3_IRQHandler(void)
     }       
 }
 
+extGameRobotState_t extGameRobotState;
 extShootData_t extShootData;
 extPowerHeatData_t extPowerHeat;
 uint8_t JUDGE_Received = 0;
@@ -263,7 +264,15 @@ void Judge_Refresh(uint8_t cmd)
 	unsigned char * b = NULL;
 	char c[4] = {0};
 	
-	if (cmd == 3)
+	if (cmd == 1)
+	{
+		extGameRobotState.stageRemainTime = (0x0000 | buffer[7]) | (buffer[8]<<8);
+		extGameRobotState.gameProgress = buffer[9];
+		extGameRobotState.robotLevel = buffer[10];
+		extGameRobotState.remainHP = (0x0000 | buffer[11]) | (buffer[12]<<8);
+		extGameRobotState.maxHP = (0x0000 | buffer[13]) | (buffer[14]<<8);
+	}
+	else if (cmd == 3)
 	{
 		extShootData.bulletType = buffer[7];
 		extShootData.bulletFreq = buffer[8];

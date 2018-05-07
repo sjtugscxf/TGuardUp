@@ -11,6 +11,15 @@ typedef enum
 
 typedef struct 
 {
+		uint16_t stageRemainTime;
+		uint8_t  gameProgress;
+		uint8_t  robotLevel;
+		uint16_t remainHP;
+		uint16_t maxHP;
+}extGameRobotState_t;
+
+typedef struct 
+{
 		uint8_t bulletType;
 		uint8_t bulletFreq;
 		float bulletSpeed;
@@ -30,6 +39,7 @@ extern uint8_t bulletFreqBuf;
 extern uint8_t shooterHeat0Buf[2];
 extern uint8_t bulletSpeedBuf[4];
 
+extern extGameRobotState_t extGameRobotState;
 extern extShootData_t extShootData;
 extern extPowerHeatData_t extPowerHeat;
 
