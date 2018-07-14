@@ -224,6 +224,10 @@ void USART3_IRQHandler(void)
 					if(buffercnt == 6)
 					{
 						cmdID = buffer[5];
+						if(cmdID>8) 
+						{
+							receiving = 0;buffercnt = 0;
+						}
 					}
 			
 					if(buffercnt == cmddata[cmdID])
