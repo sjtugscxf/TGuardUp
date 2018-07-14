@@ -452,5 +452,6 @@ void controlLoop()
 	if(WorkState != STOP_STATE && WorkState != START_STATE) 
 	{
 		sendUpMsg(CAN2);
+		sendUpMsg(CAN1);
 	}
 }
